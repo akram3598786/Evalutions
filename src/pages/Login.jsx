@@ -2,8 +2,6 @@ import React, { useState, useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 
-
-
 const Login = () => {
   let { isAuth, Loginhandler } = React.useContext(AuthContext);
   const [email, Setemail] = React.useState("");
@@ -15,7 +13,6 @@ const Login = () => {
   Setemail(e.target.value)
   }
   const handlePass=(e)=>{
- 
    Setpass(e.target.value)
   }
 
@@ -29,16 +26,23 @@ const Login = () => {
   }
 
   const postData = (payload) => {
-    fetch("https://reqres.in/api/login", {
+    fetch("https://reqres.in/api/users", {
         method: "POST",
         body: JSON.stringify(payload),
         headers: {
             "Content-Type": "application/json",
         }
-    }).then(() => {
-      Loginhandler(true);
-      navigate("/");
-    })
+    }).then((res) => {
+      if(res.status == 201){
+        alert("ligin Success");
+        navigate("/");
+         Loginhandler(true);
+      }else{
+         alert("something went wrong")
+      }
+      
+     
+    }).catch((err)=>console.log("Error ==",err ))
 }
 
   return (

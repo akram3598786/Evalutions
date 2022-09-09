@@ -1,0 +1,13 @@
+
+.Navlinks{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: bisque;
+    /* color:  white; */
+    padding: 10px 20px;
+}
+
+.Navlinks Link{
+    color: white;
+}

@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 const Products = () => {
   const [loading, setloading] = React.useState(false);
@@ -8,12 +9,35 @@ const Products = () => {
 
   React.useEffect(() => {
     setloading(true);
-    fetch(`http://localhost:8080/products`)
-      .then((res) => res.json())
-      .then((res) => setProducts(res))
-      .catch((err) => console.log(err))
-      .finally(()=>setloading(false));
+     getData();
   }, []);
+  
+  console.log(products);
+
+  const getData=()=>{
+    fetch(`http://localhost:8080/products`)
+    .then((res) => res.json())
+    .then((res) => setProducts(res))
+    .catch((err) => console.log(err))
+    .finally(()=>{   
+      setloading(false)}
+      );
+  }
+  const setProperData=()=>{ // run Once time for settting Data according to need
+    products.map((ele)=>{
+      let payload ={
+        name : ele.name,
+        description : ele.description,
+        CartSts : false,
+        Cartqty : 0,
+      }
+     
+      axios
+      .patch(`http://localhost:8080/products/${ele.id}`, payload, 'Content-Type": "application/json')
+      .then((res)=>console.log(res))
+    })
+     
+  }
 
   return (
     
