@@ -54,7 +54,6 @@ const handleAddCart=()=>{
   .patch(`http://localhost:8080/products/${prodId}`, updated, 'Content-Type": "application/json')
   .then((res)=>getData())
 }
-
   const product = { id: 1 };
   return (
     <div data-cy={`product-${product.id}`}>
@@ -78,5 +77,6 @@ const handleAddCart=()=>{
     </div>
   );
 };
+
 
 export default Product;
