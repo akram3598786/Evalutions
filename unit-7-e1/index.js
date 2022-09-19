@@ -19,9 +19,9 @@ app.get("/",(req, res)=>{
 
 // GET function ================>
 
-app.get("/todos",(req, res)=>{
-    fs.readFile("./myserver.json",{encoding : "utf-8"}, (err, data)=>{
-        // console.log(data);
+app.get("/products",(req, res)=>{
+    fs.readFile("./products.json",{encoding : "utf-8"}, (err, data)=>{
+        //  console.log(data);
         res.send(data);
       })
 })
@@ -29,39 +29,42 @@ app.get("/todos",(req, res)=>{
 
 // POST Function ================>
 
-app.post("/todos",(req,res)=>{
+app.post("/products/create",(req,res)=>{
 
-    fs.readFile("./myserver.json", (err, data)=>{
+    fs.readFile("./products.json", (err, data)=>{
        const parsed = JSON.parse(data);
-       parsed.Todos = [...parsed.Todos, req.body];
-       fs.writeFile("./myserver.json", JSON.stringify(parsed),{encoding : 'utf-8'}, ()=>{
-         res.send("new todo created");
+       parsed.Products = [...parsed.Products, req.body];
+       fs.writeFile("./products.json", JSON.stringify(parsed),{encoding : 'utf-8'}, ()=>{
+         res.send("New Product Added");
        }) 
     })
 })
 
 // DELETE Function ================>
 
-app.delete("/todos/:id",(req,res)=>{
-    let {id} = req.params;
-    fs.readFile("./myserver.json", (err, data)=>{   
+app.delete("/products/:productId",(req,res)=>{
+    let {productId} = req.params;
+    // console.log("Id is =",productId);
+    fs.readFile("./products.json", (err, data)=>{   
        const parsed = JSON.parse(data);
-       parsed.Todos = parsed.Todos.filter((todo)=>todo.id != id);
-       fs.writeFile("./myserver.json", JSON.stringify(parsed),{encoding : 'utf-8'}, ()=>{
-         res.send(" todo deleted");
+       parsed.Products = parsed.Products.filter((product)=>product.id != productId);
+       fs.writeFile("./products.json", JSON.stringify(parsed),{encoding : 'utf-8'}, ()=>{
+         res.send(" Product deleted");
        }) 
     })
 })
 
 // PATCH Function
-app.patch("/todos/:id", (req, res)=>{
-    let {id} = req.params;
-    fs.readFile("./myserver.json",(err, data)=>{
+app.patch("/products/:productId", (req, res)=>{
+    let {productId} = req.params;
+
+    fs.readFile("./products.json",(err, data)=>{
         const parsed = JSON.parse(data);
-        console.log("before",parsed.Todos);
-        parsed.Todos.forEach((todo)=> {if(todo.id == id)  todo.status = !todo.status})
-         fs.writeFile("./myserver.json",JSON.stringify(parsed),{encoding : 'utf8'},()=>{
-            res.send("Todo updated");
+  
+        parsed.Products.forEach((product)=> {if(product.id == productId)  product.Cartstatus = !product.Cartstatus})
+        console.log(parsed.Products)
+         fs.writeFile("./products.json",JSON.stringify(parsed),{encoding : 'utf8'},()=>{
+            res.send("Product updated");
          })
     })
 })
