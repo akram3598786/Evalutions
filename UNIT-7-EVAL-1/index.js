@@ -1,6 +1,7 @@
 
 import express, { json } from "express";
 import fs from "fs";
+import dns from 'node:dns';
 // console.log(express);
 
 const app = express();
@@ -15,6 +16,28 @@ app.listen(port,(req, res)=>{
 app.get("/",(req, res)=>{
     res.send("This is HomePage");
 })
+
+
+// DNS Section Code ============>
+
+app.post("/getmeip", (req, res)=>{
+    console.log("running for IP", req.body)
+// let payload = {
+//     website_name : req.body,
+// };
+let payload = req.body;
+ console.log(payload.website_name)
+//  JSON.stringify(payload)
+  dns.lookup(payload.website_name, (err, address, family) => {
+  console.log('address: %j family: IPv%s', address, family);
+  res.send(address)
+  if(err) console.log(err)
+});
+// address: "93.184.216.34" family: IPv4
+})
+
+
+
 
 
 // GET function ================>
